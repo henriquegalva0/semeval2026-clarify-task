@@ -1,8 +1,9 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+import config
 
-df = pd.read_csv(f'results/{}.csv')
+df = pd.read_csv(f'results/{config.OUTFILE}.csv')
 
 accuracy = (df['true_labels'] == df['pred_labels']).mean()
 

@@ -1,24 +1,15 @@
 import torch
 from torch.utils.data import DataLoader, Dataset
-from transformers import RobertaTokenizer, RobertaForSequenceClassification
-from sklearn.model_selection import train_test_split
+from torch.optim import AdamW 
 from tqdm import tqdm
-import argparse
 import pandas as pd
 import os
-from torch.optim import AdamW 
 import config
+import numpy as np
 
 os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:24"
 
-import torch
 torch.cuda.empty_cache()
-
-parser = argparse.ArgumentParser(description='')
-
-model_name = config.MODELNAME
-experiment = config.EXPERIMENTNAME
-
 
 clarity_mapping ={
     '1.1 Explicit': 'Direct Reply',
@@ -33,7 +24,7 @@ clarity_mapping ={
 }
 
 class CustomDataset(Dataset):
-    def __init__(self, texts, labels, max_length=512):  # You can set max_length to an appropriate value
+    def __init__(self, texts, labels, max_length=config.MAXLENGTH):  # You can set max_length to an appropriate value
 
         self.max_length = max_length
         self.texts = texts
@@ -75,82 +66,37 @@ def collate_fn(batch):
         'is_truncated': is_truncated
     }
 
-
-if experiment == "evasion_based_clarity": 
+if config.EXPERIMENTNAME == "evasion_based_clarity": 
     num_labels = 11
     mapping_labels = {'1.1 Explicit': 0, '1.2 Implicit': 1, '2.1 Dodging': 2, '2.2 Deflection': 3, '2.3 Partial/half-answer': 4, '2.4 General': 5, '2.5 Contradictory': 6, '2.6 Declining to answer': 7, '2.7 Claims ignorance': 8, '2.8 Clarification': 9, '2.9 Diffusion': 10}
-elif experiment == "direct_clarity":
+elif config.EXPERIMENTNAME == "direct_clarity":
     num_labels = 3
     mapping_labels = {"Direct Reply": 0, "Indirect": 1, "Direct Non-Reply": 2}
 
+from transformers import AlbertTokenizer, AlbertForSequenceClassification
+tokenizer = AlbertTokenizer.from_pretrained(config.MODELNAME)
+model = AlbertForSequenceClassification.from_pretrained(
+    config.MODELNAME, 
+    num_labels=num_labels
+).to("cuda")
+max_size = config.MAXSIZE 
 
-# Load pre-trained RoBERTa model and tokenizer
-'''if 'roberta' in model_name: 
-    tokenizer = RobertaTokenizer.from_pretrained(model_name)
-    model = RobertaForSequenceClassification.from_pretrained(f"{model_name}-qaevasion-{experiment}", num_labels=num_labels).to("cuda")
-    max_length = 512'''
-
-if "xlnet" in model_name:
-    # Load pre-trained XLNet model and tokenizer
-    from transformers import XLNetTokenizer, XLNetForSequenceClassification, AdamW
-    tokenizer = XLNetTokenizer.from_pretrained(model_name)
-    model = XLNetForSequenceClassification.from_pretrained(f"{model_name}-qaevasion-{experiment}", num_labels=num_labels).to("cuda")
-    max_length = 4096
-    
-elif "deberta" in model_name: 
-    from transformers import DebertaTokenizer, DebertaForSequenceClassification, AdamW
-    tokenizer = DebertaTokenizer.from_pretrained(model_name)
-    model = DebertaForSequenceClassification.from_pretrained(f"{model_name.split('/')[-1]}-qaevasion-{experiment}", num_labels=num_labels).to("cuda")
-    max_length = 512
-
-elif "modernbert" in model_name.lower():
-       from transformers import AutoTokenizer, AutoModelForSequenceClassification
-       tokenizer = AutoTokenizer.from_pretrained(model_name)
-       model = AutoModelForSequenceClassification.from_pretrained(
-        "answerdotai/ModernBERT-base",
-         device_map="auto",
-         attn_implementation="sdpa",
-         num_labels=num_labels
-        ).to("cuda")
-       max_length = 8192  
-
-elif "albert" in model_name.lower():
-    from transformers import AlbertTokenizer, AlbertForSequenceClassification
-    tokenizer = AlbertTokenizer.from_pretrained(model_name)
-    model = AlbertForSequenceClassification.from_pretrained(
-        f"albert/albert-base-v2",
-        num_labels=num_labels
-    ).to("cuda")
-    max_length = 512
-
-elif "distilroberta" in model_name.lower():
-    from transformers import AutoTokenizer, AutoModelForSequenceClassification
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
-    model = AutoModelForSequenceClassification.from_pretrained(model_name, num_labels=num_labels).to("cuda")
-    max_length = 512
-
-dataset = pd.read_csv("./drive/MyDrive/Projetos/ICnadia[FinetuningNLP]/SemEval2026/Question-Evasion/dataset/Inter-Annotator/test_set.csv")
 labels = []
 
-for _, row in dataset.iterrows():
+for _, row in config.TESTINGDATASET.iterrows():
     l = [row["Annotator1"], row["Annotator2"], row["Annotator3"]]
     labels.append(max(set(l), key=labels.count))
-dataset["Label"] = labels
+config.TESTINGDATASET["Label"] = labels
 
-all_texts = [f"Question: {row['Interview Question']}\n\nAnswer: {row['Interview Answer']}\n\nSubanswer: {row['Question']}" for _, row in dataset.iterrows()]
+all_texts = [f"Question: {row['Interview Question']}\n\nAnswer: {row['Interview Answer']}\n\nSubanswer: {row['Question']}" for _, row in config.TESTINGDATASET.iterrows()] # * problema dos tokens excedentes * (tentar trocar question pela PRIMEIRA PARTE do summary do gpt)
 
-if experiment == "evasion_based_clarity":
-    all_labels = [mapping_labels[row["Label"]] for _, row in dataset.iterrows() if "other" not in row["Label"].lower()]
-elif experiment == "direct_clarity":
-    all_labels = [mapping_labels[clarity_mapping[row["Label"]]] for _, row in dataset.iterrows() if "other" not in row["Label"].lower()]
+if config.EXPERIMENTNAME == "evasion_based_clarity":
+    all_labels = [mapping_labels[row["Label"]] for _, row in config.TESTINGDATASET.iterrows() if "other" not in row["Label"].lower()]
+elif config.EXPERIMENTNAME == "direct_clarity":
+    all_labels = [mapping_labels[clarity_mapping[row["Label"]]] for _, row in config.TESTINGDATASET.iterrows() if "other" not in row["Label"].lower()]
 
-
-# Create datasets and dataloaders
-val_dataset = CustomDataset(all_texts, all_labels, max_length=512)
+val_dataset = CustomDataset(all_texts, all_labels, max_length=config.MAXLENGTH)
 val_dataloader = DataLoader(val_dataset, batch_size=1, shuffle=False, collate_fn=collate_fn)
-
-# Inside the validation loop
-import numpy as np
 
 model.eval()
 inv_mapping_labels = {v:k for k, v in mapping_labels.items()}
@@ -171,4 +117,4 @@ with torch.no_grad():
             results.append([is_trunc, true_label, pred_label])
             
 df = pd.DataFrame(results, columns=['is_truncated', 'true_labels', 'pred_labels'])
-df.to_csv(f"./drive/MyDrive/Projetos/ICnadia[FinetuningNLP]/SemEval2026/Question-Evasion/results/encoders/{model_name.split('/')[-1]}-{experiment}.csv")
+df.to_csv(config.OUTCSV)

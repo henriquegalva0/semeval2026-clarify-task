@@ -1,22 +1,15 @@
 import torch
 from torch.utils.data import DataLoader, Dataset
+from torch.optim import AdamW 
 from tqdm import tqdm
-from torch.optim import AdamW
-
-import argparse
 import pandas as pd
 import os
-
 import config
+import numpy as np
 
 os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:24"
 
-import torch
 torch.cuda.empty_cache()
-
-parser = argparse.ArgumentParser(description='')
-
-experiment = config.EXPERIMENTNAME
 
 clarity_mapping ={
     'Explicit': 'Direct Reply',
@@ -43,7 +36,7 @@ model = AlbertForSequenceClassification.from_pretrained(
     config.MODELNAME, 
     num_labels=num_labels
 ).to("cuda")
-max_size = 512 
+max_size = config.MAXSIZE 
 
 class CustomDataset(Dataset):
     def __init__(self, texts, labels, max_length=config.MAXLENGTH):
