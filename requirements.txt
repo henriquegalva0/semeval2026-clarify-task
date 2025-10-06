@@ -1,0 +1,11 @@
+thefuzz==0.20.0
+fuzzywuzzy==0.18.0
+bitsandbytes
+datasets
+accelerate
+loralib
+git+https://github.com/huggingface/transformers.git@main
+git+https://github.com/huggingface/peft.git
+openai==0.28
+scikit-learn
+matplotlib
