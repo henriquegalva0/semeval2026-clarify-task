@@ -9,7 +9,7 @@ SBATCH --gres=gpu:1
 SBATCH --cpus-per-task=4
 SBATCH --mem=16G
 
-
-python3 encoder_inference.py
+python3 encoder_train.py
+#python3 encoder_inference.py
 
 #sbatch training_job.sh

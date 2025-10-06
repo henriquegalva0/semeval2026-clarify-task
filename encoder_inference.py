@@ -8,7 +8,6 @@ import pandas as pd
 import os
 from torch.optim import AdamW 
 import config
-,EXPERIMENTNAME
 
 os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:24"
 
@@ -16,11 +15,6 @@ import torch
 torch.cuda.empty_cache()
 
 parser = argparse.ArgumentParser(description='')
-    
-# Adding arguments
-parser.add_argument('--model_name', type=str)
-parser.add_argument('--experiment', type=str)
-args = parser.parse_args()
 
 model_name = config.MODELNAME
 experiment = config.EXPERIMENTNAME
@@ -38,9 +32,6 @@ clarity_mapping ={
     '2.8 Clarification': "Direct Non-Reply",
 }
 
-
-
-# Define your dataset class
 class CustomDataset(Dataset):
     def __init__(self, texts, labels, max_length=512):  # You can set max_length to an appropriate value
 
@@ -85,7 +76,7 @@ def collate_fn(batch):
     }
 
 
-if experiment == "evasion_based_clarity":
+if experiment == "evasion_based_clarity": 
     num_labels = 11
     mapping_labels = {'1.1 Explicit': 0, '1.2 Implicit': 1, '2.1 Dodging': 2, '2.2 Deflection': 3, '2.3 Partial/half-answer': 4, '2.4 General': 5, '2.5 Contradictory': 6, '2.6 Declining to answer': 7, '2.7 Claims ignorance': 8, '2.8 Clarification': 9, '2.9 Diffusion': 10}
 elif experiment == "direct_clarity":
