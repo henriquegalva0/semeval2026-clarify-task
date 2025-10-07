@@ -4,8 +4,11 @@ bitsandbytes
 datasets
 accelerate
 loralib
-openai==0.28
 scikit-learn
 matplotlib
+torch
+pandas
+numpy
+tqdm
 git+https://github.com/huggingface/transformers.git@main
 git+https://github.com/huggingface/peft.git

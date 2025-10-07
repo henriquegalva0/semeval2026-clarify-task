@@ -21,5 +21,5 @@ EXPERIMENTNAME=str("evasion_based_clarity")
 
 # paths CFGs
 
-OUTFILE=f"{MODELNAME.split('/')[-1]}-qaevasion-{EXPERIMENTNAME}"
-OUTCSV=f"results/{MODELNAME.split('/')[-1]}-{EXPERIMENTNAME}.csv"
+OUTFILE=open(f"{MODELNAME.split('/')[-1]}-qaevasion-{EXPERIMENTNAME}")
+OUTCSV=open(f"./results/{MODELNAME.split('/')[-1]}-{EXPERIMENTNAME}.csv")
