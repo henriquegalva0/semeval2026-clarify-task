@@ -4,7 +4,8 @@ import pandas as pd
 
 TRAININGDATASET=pd.read_parquet("hf://datasets/ailsntua/QEvasion/" + 'data/train-00000-of-00001.parquet')
 TESTINGDATASET=pd.read_parquet("hf://datasets/ailsntua/QEvasion/" + 'data/test-00000-of-00001.parquet')
-
+LEARNINGRATE=1e-5
+BATCHSIZE = 3
 MULTIPLEQUESTIONS=False # True = enable multiple questions in the dataset
 
 if MULTIPLEQUESTIONS==False:

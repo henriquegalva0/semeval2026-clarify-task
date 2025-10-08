@@ -24,8 +24,7 @@ clarity_mapping ={
 }
 
 class CustomDataset(Dataset):
-    def __init__(self, texts, labels, max_length=config.MAXLENGTH):  # You can set max_length to an appropriate value
-
+    def __init__(self, texts, labels, max_length=config.MAXLENGTH):
         self.max_length = max_length
         self.texts = texts
         self.labels = labels
@@ -34,36 +33,42 @@ class CustomDataset(Dataset):
         return len(self.texts)
 
     def __getitem__(self, idx):
-        inputs = tokenizer(
+        # First pass: check if truncation is needed
+        inputs_check = tokenizer(
             self.texts[idx],
             return_tensors='pt',
-            # truncation=True,
-            padding='max_length',  # Use padding to ensure all sequences have the same length
-            max_length=self.max_length
+            truncation=False,  # Don't truncate yet, just check length
+            add_special_tokens=True
         )
-
-        is_truncated = False
-        if len(inputs['input_ids'][0]) > self.max_length:
-            is_truncated = True
-
+        
+        original_length = len(inputs_check['input_ids'][0])
+        is_truncated = original_length > self.max_length
+        
+        # Second pass: actually tokenize with truncation if needed
         inputs = tokenizer(
             self.texts[idx],
             return_tensors='pt',
-            truncation=True,
-            padding='max_length',  # Use padding to ensure all sequences have the same length
-            max_length=self.max_length
+            truncation=True,  # Now truncate if necessary
+            padding='max_length',
+            max_length=self.max_length,
+            add_special_tokens=True
         )
            
         label = torch.tensor(self.labels[idx])
-        return inputs, label, is_truncated
+        return inputs, label, is_truncated, original_length
+    
+
+dataset_path = "test_set.csv"
+df = pd.read_csv(dataset_path)
 
 def collate_fn(batch):
-    inputs, labels, is_truncated = zip(*batch)
+    inputs, labels, is_truncated, original_lengths = zip(*batch)
     return {
         'input_ids': torch.stack([x['input_ids'].squeeze() for x in inputs]),
         'attention_mask': torch.stack([x['attention_mask'].squeeze() for x in inputs]),
         'labels': torch.tensor(labels), 
-        'is_truncated': is_truncated
+        'is_truncated': is_truncated,
+        'original_lengths': original_lengths
     }
 
 if config.EXPERIMENTNAME == "evasion_based_clarity": 
@@ -79,21 +84,24 @@ model = AlbertForSequenceClassification.from_pretrained(
     config.MODELNAME, 
     num_labels=num_labels
 ).to("cuda")
-max_size = config.MAXSIZE 
+
+# Load your trained model for validation
+model_path = config.OUTFILE  # Path where your trained model was saved
+model = AlbertForSequenceClassification.from_pretrained(model_path).to("cuda")
 
 labels = []
 
-for _, row in config.TESTINGDATASET.iterrows():
+for _, row in df.iterrows():
     l = [row["Annotator1"], row["Annotator2"], row["Annotator3"]]
     labels.append(max(set(l), key=labels.count))
-config.TESTINGDATASET["Label"] = labels
+df["Label"] = labels
 
-all_texts = [f"Question: {row['Interview Question']}\n\nAnswer: {row['Interview Answer']}\n\nSubanswer: {row['Question']}" for _, row in config.TESTINGDATASET.iterrows()] # * problema dos tokens excedentes * (tentar trocar question pela PRIMEIRA PARTE do summary do gpt)
+all_texts = [f"Question: {row['Interview Question']}\n\nAnswer: {row['Interview Answer']}\n\nSubanswer: {row['Question']}" for _, row in df.iterrows()]
 
 if config.EXPERIMENTNAME == "evasion_based_clarity":
-    all_labels = [mapping_labels[row["Label"]] for _, row in config.TESTINGDATASET.iterrows() if "other" not in row["Label"].lower()]
+    all_labels = [mapping_labels[row["Label"]] for _, row in df.iterrows() if "other" not in row["Label"].lower()]
 elif config.EXPERIMENTNAME == "direct_clarity":
-    all_labels = [mapping_labels[clarity_mapping[row["Label"]]] for _, row in config.TESTINGDATASET.iterrows() if "other" not in row["Label"].lower()]
+    all_labels = [mapping_labels[clarity_mapping[row["Label"]]] for _, row in df.iterrows() if "other" not in row["Label"].lower()]
 
 val_dataset = CustomDataset(all_texts, all_labels, max_length=config.MAXLENGTH)
 val_dataloader = DataLoader(val_dataset, batch_size=1, shuffle=False, collate_fn=collate_fn)
@@ -109,12 +117,27 @@ with torch.no_grad():
         attention_mask = batch['attention_mask'].to("cuda")
         labels = batch['labels'].to("cuda")
         is_truncated = batch['is_truncated']
+        original_lengths = batch['original_lengths']
         
-        outputs = model(input_ids=inputs, attention_mask=attention_mask, labels=labels)
-        for true_label, pred_label, is_trunc in zip(labels.cpu().numpy(), outputs["logits"].cpu().numpy(), is_truncated):
-            true_label = inv_mapping_labels[true_label]
-            pred_label = inv_mapping_labels[np.argmax(pred_label)]
-            results.append([is_trunc, true_label, pred_label])
+        outputs = model(input_ids=inputs, attention_mask=attention_mask)
+        
+        for true_label, logits, is_trunc, orig_len in zip(labels.cpu().numpy(), outputs.logits.cpu().numpy(), is_truncated, original_lengths):
+            true_label_str = inv_mapping_labels[true_label]
+            pred_label_str = inv_mapping_labels[np.argmax(logits)]
+            results.append([is_trunc, orig_len, true_label_str, pred_label_str])
             
-df = pd.DataFrame(results, columns=['is_truncated', 'true_labels', 'pred_labels'])
-df.to_csv(config.OUTCSV)
+df_results = pd.DataFrame(results, columns=['is_truncated', 'original_length', 'true_labels', 'pred_labels'])
+
+# Add analysis of truncation impact
+truncated_count = df_results['is_truncated'].sum()
+total_count = len(df_results)
+print(f"Truncation analysis: {truncated_count}/{total_count} samples ({truncated_count/total_count*100:.1f}%) were truncated")
+
+# Check accuracy for truncated vs non-truncated samples
+if truncated_count > 0:
+    truncated_acc = (df_results[df_results['is_truncated']]['true_labels'] == df_results[df_results['is_truncated']]['pred_labels']).mean()
+    non_truncated_acc = (df_results[~df_results['is_truncated']]['true_labels'] == df_results[~df_results['is_truncated']]['pred_labels']).mean()
+    print(f"Accuracy - Truncated: {truncated_acc*100:.1f}%, Non-truncated: {non_truncated_acc*100:.1f}%")
+
+df_results.to_csv(config.OUTCSV, index=False)
+print(f"Results saved to {config.OUTCSV}")
