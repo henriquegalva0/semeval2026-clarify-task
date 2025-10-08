@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --job-name=test_AlBERT_train
+#SBATCH --job-name=inference_AlBERT_train
 
 #SBATCH --output=saida_%j.log
 
