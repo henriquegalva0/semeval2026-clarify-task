@@ -1,0 +1,318 @@
+is_truncated,original_length,true_labels,pred_labels
+False,107,Indirect,Indirect
+False,246,Indirect,Indirect
+True,546,Direct Reply,Indirect
+True,560,Indirect,Indirect
+False,271,Indirect,Indirect
+True,527,Indirect,Indirect
+False,259,Indirect,Indirect
+True,859,Indirect,Indirect
+False,503,Indirect,Indirect
+True,643,Indirect,Indirect
+False,481,Indirect,Indirect
+False,105,Direct Reply,Direct Reply
+False,346,Indirect,Indirect
+True,549,Indirect,Indirect
+True,629,Indirect,Indirect
+True,1023,Indirect,Indirect
+True,547,Direct Reply,Indirect
+False,244,Indirect,Indirect
+False,68,Indirect,Indirect
+False,472,Indirect,Indirect
+False,264,Indirect,Indirect
+True,1124,Indirect,Indirect
+False,388,Direct Reply,Direct Reply
+False,186,Indirect,Indirect
+True,992,Indirect,Indirect
+False,194,Direct Reply,Indirect
+True,1047,Indirect,Indirect
+True,1174,Indirect,Indirect
+True,981,Indirect,Indirect
+False,427,Indirect,Indirect
+True,557,Direct Non-Reply,Indirect
+False,439,Direct Reply,Indirect
+True,644,Indirect,Indirect
+False,233,Indirect,Indirect
+True,633,Indirect,Indirect
+False,488,Indirect,Indirect
+False,275,Indirect,Indirect
+False,112,Direct Reply,Indirect
+True,906,Direct Reply,Indirect
+True,1124,Indirect,Indirect
+True,1343,Indirect,Indirect
+False,266,Indirect,Indirect
+True,1134,Indirect,Indirect
+True,1177,Indirect,Indirect
+False,221,Indirect,Indirect
+False,223,Indirect,Indirect
+False,48,Direct Reply,Direct Reply
+False,222,Indirect,Indirect
+False,507,Direct Reply,Direct Reply
+False,176,Indirect,Indirect
+True,987,Indirect,Indirect
+False,250,Direct Non-Reply,Indirect
+True,609,Indirect,Indirect
+False,150,Direct Reply,Indirect
+False,114,Indirect,Indirect
+False,210,Indirect,Indirect
+False,167,Direct Reply,Indirect
+False,306,Direct Reply,Indirect
+True,664,Indirect,Indirect
+False,187,Direct Non-Reply,Indirect
+False,299,Indirect,Indirect
+True,582,Direct Reply,Indirect
+False,276,Indirect,Indirect
+False,65,Indirect,Direct Non-Reply
+False,61,Direct Reply,Direct Reply
+True,1053,Indirect,Indirect
+False,227,Direct Reply,Direct Reply
+False,332,Direct Reply,Indirect
+True,989,Indirect,Indirect
+False,462,Direct Reply,Indirect
+False,283,Direct Reply,Indirect
+False,278,Indirect,Indirect
+True,550,Direct Reply,Indirect
+False,263,Direct Reply,Indirect
+False,152,Direct Non-Reply,Indirect
+False,115,Direct Non-Reply,Indirect
+False,147,Direct Reply,Indirect
+False,482,Indirect,Indirect
+True,929,Indirect,Indirect
+False,461,Direct Reply,Indirect
+False,424,Indirect,Indirect
+True,566,Indirect,Indirect
+True,800,Indirect,Indirect
+False,283,Direct Reply,Indirect
+True,821,Indirect,Indirect
+False,45,Direct Reply,Direct Reply
+True,880,Indirect,Indirect
+True,630,Indirect,Indirect
+False,264,Direct Non-Reply,Direct Non-Reply
+False,494,Indirect,Indirect
+False,348,Indirect,Indirect
+True,519,Direct Reply,Indirect
+False,437,Direct Non-Reply,Indirect
+True,836,Direct Reply,Indirect
+True,583,Direct Reply,Indirect
+True,559,Indirect,Indirect
+False,377,Indirect,Indirect
+True,810,Direct Reply,Indirect
+False,100,Direct Non-Reply,Direct Reply
+True,535,Indirect,Indirect
+False,48,Direct Reply,Direct Reply
+True,646,Indirect,Indirect
+True,870,Indirect,Indirect
+False,52,Indirect,Indirect
+True,932,Indirect,Indirect
+False,175,Indirect,Indirect
+True,569,Indirect,Indirect
+True,639,Direct Reply,Indirect
+False,432,Direct Reply,Indirect
+False,379,Indirect,Indirect
+True,908,Indirect,Indirect
+True,1057,Indirect,Indirect
+False,446,Indirect,Indirect
+False,487,Indirect,Indirect
+False,296,Direct Non-Reply,Indirect
+False,222,Direct Reply,Indirect
+True,1454,Indirect,Indirect
+False,498,Indirect,Indirect
+False,35,Indirect,Indirect
+True,1048,Indirect,Indirect
+False,308,Indirect,Indirect
+True,1575,Indirect,Indirect
+True,820,Indirect,Indirect
+True,546,Indirect,Indirect
+True,536,Indirect,Indirect
+False,103,Indirect,Direct Reply
+True,1173,Direct Reply,Indirect
+False,270,Direct Reply,Indirect
+True,912,Direct Reply,Indirect
+False,346,Indirect,Indirect
+True,655,Direct Reply,Indirect
+False,354,Direct Reply,Indirect
+False,264,Indirect,Indirect
+True,1406,Indirect,Indirect
+False,118,Indirect,Indirect
+True,901,Indirect,Indirect
+False,189,Indirect,Indirect
+True,749,Indirect,Indirect
+False,31,Direct Reply,Direct Reply
+False,139,Indirect,Indirect
+True,1747,Direct Reply,Indirect
+False,455,Indirect,Indirect
+True,763,Indirect,Indirect
+False,375,Indirect,Indirect
+True,689,Indirect,Indirect
+False,236,Indirect,Direct Reply
+True,579,Direct Reply,Indirect
+False,398,Indirect,Direct Reply
+True,779,Direct Reply,Indirect
+True,533,Indirect,Indirect
+False,221,Indirect,Indirect
+False,405,Indirect,Indirect
+False,235,Direct Reply,Indirect
+True,781,Direct Reply,Indirect
+False,69,Direct Reply,Indirect
+True,974,Indirect,Indirect
+True,722,Direct Reply,Indirect
+False,302,Direct Reply,Indirect
+True,836,Indirect,Indirect
+True,701,Indirect,Indirect
+True,703,Indirect,Indirect
+False,41,Direct Reply,Indirect
+False,506,Indirect,Indirect
+False,199,Indirect,Indirect
+False,249,Indirect,Indirect
+True,550,Direct Reply,Indirect
+False,348,Indirect,Indirect
+True,538,Direct Reply,Indirect
+False,256,Indirect,Indirect
+True,824,Indirect,Indirect
+True,885,Direct Reply,Indirect
+True,527,Direct Reply,Indirect
+False,441,Indirect,Indirect
+False,223,Indirect,Indirect
+False,104,Indirect,Indirect
+False,65,Indirect,Indirect
+True,623,Indirect,Indirect
+True,640,Indirect,Indirect
+False,424,Indirect,Indirect
+False,346,Indirect,Indirect
+True,548,Indirect,Indirect
+False,334,Direct Reply,Indirect
+True,672,Indirect,Indirect
+False,305,Indirect,Indirect
+False,303,Indirect,Indirect
+True,745,Indirect,Indirect
+False,402,Indirect,Indirect
+True,1442,Indirect,Indirect
+False,359,Indirect,Indirect
+False,507,Indirect,Indirect
+False,416,Direct Non-Reply,Direct Non-Reply
+False,53,Direct Reply,Direct Reply
+False,370,Indirect,Indirect
+False,36,Direct Non-Reply,Direct Non-Reply
+True,924,Direct Reply,Indirect
+False,232,Indirect,Indirect
+True,930,Indirect,Indirect
+True,629,Indirect,Indirect
+True,1047,Direct Reply,Indirect
+False,265,Indirect,Indirect
+False,219,Direct Reply,Indirect
+False,188,Indirect,Indirect
+False,168,Indirect,Indirect
+False,209,Indirect,Indirect
+True,988,Indirect,Indirect
+False,290,Direct Reply,Indirect
+True,1580,Indirect,Indirect
+True,624,Indirect,Indirect
+False,281,Indirect,Indirect
+False,411,Indirect,Indirect
+True,690,Indirect,Indirect
+True,537,Indirect,Indirect
+True,834,Direct Reply,Indirect
+False,80,Indirect,Indirect
+False,385,Indirect,Indirect
+True,863,Indirect,Indirect
+False,38,Direct Reply,Direct Reply
+False,196,Indirect,Direct Reply
+True,619,Indirect,Indirect
+True,636,Indirect,Indirect
+False,59,Indirect,Direct Reply
+True,1042,Indirect,Indirect
+True,608,Indirect,Indirect
+True,1400,Indirect,Indirect
+False,346,Indirect,Indirect
+False,450,Indirect,Indirect
+True,654,Indirect,Indirect
+True,520,Direct Reply,Indirect
+False,293,Indirect,Indirect
+True,827,Direct Reply,Indirect
+True,827,Indirect,Indirect
+True,634,Direct Reply,Indirect
+False,67,Indirect,Indirect
+False,436,Indirect,Indirect
+True,1444,Indirect,Indirect
+False,442,Indirect,Indirect
+False,272,Indirect,Indirect
+True,729,Direct Reply,Indirect
+False,437,Indirect,Indirect
+False,485,Indirect,Indirect
+False,493,Indirect,Indirect
+False,354,Indirect,Indirect
+True,736,Indirect,Indirect
+True,659,Indirect,Indirect
+True,775,Direct Reply,Indirect
+False,45,Direct Non-Reply,Direct Non-Reply
+True,764,Indirect,Indirect
+False,467,Indirect,Indirect
+False,222,Indirect,Indirect
+True,598,Direct Reply,Indirect
+True,694,Indirect,Indirect
+False,219,Direct Reply,Direct Reply
+True,685,Indirect,Indirect
+True,1582,Indirect,Indirect
+False,292,Indirect,Indirect
+False,130,Indirect,Indirect
+False,62,Direct Reply,Direct Reply
+False,169,Indirect,Indirect
+False,103,Direct Reply,Indirect
+False,263,Direct Reply,Indirect
+True,678,Indirect,Indirect
+False,168,Direct Reply,Indirect
+True,1169,Indirect,Indirect
+False,99,Indirect,Indirect
+True,697,Direct Reply,Indirect
+True,1414,Indirect,Indirect
+False,498,Direct Reply,Indirect
+False,304,Direct Non-Reply,Direct Non-Reply
+True,856,Direct Reply,Indirect
+False,58,Direct Reply,Direct Reply
+True,693,Indirect,Indirect
+True,931,Indirect,Indirect
+False,280,Indirect,Direct Non-Reply
+False,347,Direct Non-Reply,Indirect
+False,129,Direct Non-Reply,Direct Non-Reply
+True,652,Indirect,Indirect
+True,806,Direct Reply,Indirect
+True,575,Direct Reply,Indirect
+True,604,Indirect,Indirect
+True,752,Indirect,Indirect
+True,1411,Indirect,Indirect
+False,256,Indirect,Indirect
+True,787,Indirect,Indirect
+False,298,Indirect,Indirect
+True,517,Indirect,Indirect
+True,629,Indirect,Indirect
+True,891,Indirect,Indirect
+False,498,Indirect,Indirect
+True,744,Direct Reply,Indirect
+True,588,Indirect,Indirect
+False,41,Indirect,Direct Reply
+False,73,Direct Reply,Direct Reply
+True,648,Direct Reply,Indirect
+True,736,Direct Reply,Indirect
+False,114,Direct Non-Reply,Indirect
+False,352,Indirect,Indirect
+False,354,Direct Reply,Indirect
+True,515,Indirect,Indirect
+True,853,Indirect,Indirect
+True,816,Direct Reply,Indirect
+False,363,Direct Reply,Indirect
+True,592,Direct Reply,Indirect
+True,1037,Indirect,Indirect
+False,356,Indirect,Indirect
+True,557,Indirect,Indirect
+True,766,Indirect,Indirect
+False,99,Indirect,Indirect
+False,138,Direct Reply,Indirect
+False,94,Direct Reply,Direct Reply
+False,62,Direct Non-Reply,Direct Non-Reply
+True,929,Indirect,Indirect
+True,584,Indirect,Indirect
+True,971,Indirect,Indirect
+True,788,Indirect,Indirect
+True,684,Direct Reply,Indirect
+False,321,Indirect,Indirect
+False,64,Indirect,Indirect
